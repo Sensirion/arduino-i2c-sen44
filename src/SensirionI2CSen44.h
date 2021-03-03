@@ -238,8 +238,7 @@ class SensirionI2CSen44 {
                              uint8_t serialNumberSize);
 
     /**
-     * getVersion() - Gets the version information for the hardware, firmware
-     * and SHDLC protocol.
+     * getVersion() - Gets the version information for the hardware, firmware.
      *
      * @param firmwareMajor Firmware major version number.
      *
