@@ -129,18 +129,16 @@ void loop() {
     uint16_t error;
     char errorMessage[256];
 
-    // TODO: DRIVER_GENERATOR Adjust measurement delay
     delay(1000);
-    // TODO: DRIVER_GENERATOR Add scale and offset to printed measurement values
-    // Read Measurement
 
+    // Read Measurement
     uint16_t massConcentrationPm1p0;
     uint16_t massConcentrationPm2p5;
     uint16_t massConcentrationPm4p0;
     uint16_t massConcentrationPm10p0;
-    int16_t vocIndex;
-    int16_t ambientHumidity;
-    int16_t ambientTemperature;
+    float vocIndex;
+    float ambientHumidity;
+    float ambientTemperature;
 
     error = sen44.readMeasuredMassConcentrationAndAmbientValues(
         massConcentrationPm1p0, massConcentrationPm2p5, massConcentrationPm4p0,
