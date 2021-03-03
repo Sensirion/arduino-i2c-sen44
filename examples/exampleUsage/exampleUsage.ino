@@ -1,9 +1,4 @@
 /*
- * I2C-Generator: 0.2.0
- * Yaml Version: 0.1.0
- * Template Version: 0.7.0
- */
-/*
  * Copyright (c) 2021, Sensirion AG
  * All rights reserved.
  *
@@ -40,35 +35,9 @@
 
 SensirionI2CSen44 sen44;
 
-// TODO: DRIVER_GENERATOR Add missing commands and make printout more pretty
-
-void setup() {
-
-    Serial.begin(115200);
-    while (!Serial) {
-        delay(100);
-    }
-
-    Wire.begin();
-
+void printModuleVersions() {
     uint16_t error;
     char errorMessage[256];
-
-    sen44.begin(Wire);
-
-    unsigned char serialNumber[32];
-    uint8_t serialNumberSize = 32;
-
-    error = sen44.getSerialNumber(serialNumber, serialNumberSize);
-
-    if (error) {
-        Serial.print("Error trying to execute getSerialNumber(): ");
-        errorToString(error, errorMessage, 256);
-        Serial.println(errorMessage);
-    } else {
-        Serial.print("SerialNumber:");
-        Serial.println((char*)serialNumber);
-    }
 
     uint8_t firmwareMajor;
     uint8_t firmwareMinor;
@@ -84,26 +53,69 @@ void setup() {
         errorToString(error, errorMessage, 256);
         Serial.println(errorMessage);
     } else {
-        Serial.print("FirmwareMajor:");
+        if (firmwareDebug) {
+            printf("Development firmware version: ");
+        }
+        Serial.print("Firmware: ");
         Serial.print(firmwareMajor);
-        Serial.print("\t");
-        Serial.print("FirmwareMinor:");
+        Serial.print(".");
         Serial.print(firmwareMinor);
-        Serial.print("\t");
-        Serial.print("FirmwareDebug:");
-        Serial.print(firmwareDebug);
-        Serial.print("\t");
-        Serial.print("HardwareMajor:");
+        Serial.print(", ");
+
+        Serial.print("Hardware: ");
         Serial.print(hardwareMajor);
-        Serial.print("\t");
-        Serial.print("HardwareMinor:");
-        Serial.print(hardwareMinor);
-        Serial.print("\t");
-        Serial.println();
+        Serial.print(".");
+        Serial.println(hardwareMinor);
+    }
+}
+
+void printSerialNumber() {
+    uint16_t error;
+    char errorMessage[256];
+
+    unsigned char serialNumber[32];
+    uint8_t serialNumberSize = 32;
+
+    // Note that the I2C buffer on some Arduino boards is too small to execute
+    // this command.
+    error = sen44.getSerialNumber(serialNumber, serialNumberSize);
+
+    if (error) {
+        Serial.print("Error trying to execute getSerialNumber(): ");
+        errorToString(error, errorMessage, 256);
+        Serial.println(errorMessage);
+    } else {
+        Serial.print("Serial number: ");
+        Serial.println((char*)serialNumber);
+    }
+}
+
+void setup() {
+
+    Serial.begin(115200);
+    while (!Serial) {
+        delay(100);
     }
 
-    // Start Measurement
+    Wire.begin();
 
+    uint16_t error;
+    char errorMessage[256];
+
+    sen44.begin(Wire);
+
+    error = sen44.deviceReset();
+    if (error) {
+        Serial.print("Error trying to execute getSerialNumber(): ");
+        errorToString(error, errorMessage, 256);
+        Serial.println(errorMessage);
+    }
+
+    // Print SEN44 module information
+    printSerialNumber();
+    printModuleVersions();
+
+    // Start Measurement
     error = sen44.startMeasurement();
 
     if (error) {
