@@ -24,16 +24,29 @@ Note: Installation via the Arduino Library Manager is coming soon.
 # Quick Start
 
 1. Connect the SEN44 Sensor to your Arduino board's standard I2C bus. Check the pinout of your Arduino board to find the
-   correct pins. The pinout of the SEN44 Sensor module can be found in the data sheet.
+   correct pins. The pinout of the SEN44 Sensor module can be found in the data sheet and here:
 
    | *SEN44* | *Raspberry Pi* | *Jumper Wire* |
-         |---------|----------------|---------------|
+   |---------|----------------|---------------|
    |   VCC   |       5V       |     Red       |
    |   GND   |       GND      |     Black     |
    |   SDA   |       SDA      |     Green     |
    |   SCL   |       SCL      |     Yellow    |
    |   SEL   |   GND for I2C  |     Blue      |
 
+   <center><img src="images/SEN44_pinout.png" width="300px"></center>
+
+   | *Pin* | *Name* | *Description* | *Comments* |
+   |-------|--------|---------------|------------|
+   | 1     | VDD    | Supply Voltage | 5V ±10%
+   | 2     | GND    | Ground | 
+   | 3     | RX     | UART: Receiving pin for communication | TTL 5V and LVTTL 3.3V compatible
+   |       | SDA    | I2C: Serial data input / output | TTL 5V and LVTTL 3.3V compatible
+   | 4     | TX     | UART: Transmission pin for communication | TTL 5V and LVTTL 3.3V compatible
+   |       | SCL    | I2C: Serial clock input | TTL 5V and LVTTL 3.3V compatible
+   | 5     | SEL    | Interface select | Leave floating or pull to VDD to select UART
+   |       |        |  | Pull to GND to select I2C
+   | 6     | NC     | Do not connect |
 
 2. Open the `exampleUsage` sample project within the Arduino IDE
 
