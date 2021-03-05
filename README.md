@@ -1,10 +1,8 @@
-<center><img src="images/SEN4x_banner.jpg"></center>
-
 # Sensirion I2C SEN44 Arduino Library
 
 This is the Sensirion SEN44 library for Arduino using the modules I2C interface.
 
-<center><img src="images/SEN4x.png"></center>
+<center><img src="images/SEN4x.png" width="500px"></center>
 
 # Installation
 
@@ -26,7 +24,7 @@ Note: Installation via the Arduino Library Manager is coming soon.
 1. Connect the SEN44 Sensor to your Arduino board's standard I2C bus. Check the pinout of your Arduino board to find the
    correct pins. The pinout of the SEN44 Sensor module can be found in the data sheet and here:
 
-   | *SEN44* | *Raspberry Pi* | *Jumper Wire* |
+   | *SEN44* |   *Arduino*    | *Jumper Wire* |
    |---------|----------------|---------------|
    |   VCC   |       5V       |     Red       |
    |   GND   |       GND      |     Black     |
