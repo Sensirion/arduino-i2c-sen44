@@ -489,3 +489,68 @@ uint16_t SensirionI2CSen44::deviceReset() {
     delay(100);
     return error;
 }
+
+
+uint16_t SensirionI2CSen44::setTemperatureOffset(float temperature_offset) {
+    uint16_t error;
+    uint8_t buffer[5];
+    SensirionI2CTxFrame txFrame(buffer, 5);
+
+    error = txFrame.addCommand(0x6014);
+    error |= txFrame.addInt16(temperature_offset * 200);
+    if (error) {
+        return error;
+    }
+
+    error = SensirionI2CCommunication::sendFrame(SEN44_I2C_ADDRESS, txFrame,
+                                                 *_i2cBus);
+    delay(100);
+    return error;
+}
+
+uint16_t SensirionI2CSen44::getTemperatureOffset(float& temperature_offset) {
+    uint16_t error;
+    uint8_t buffer[3];
+    int16_t TemperatureOffsetTicks;
+    SensirionI2CTxFrame txFrame(buffer, 3);
+
+    error = txFrame.addCommand(0x6014);
+    if (error) {
+        return error;
+    }
+
+    error = SensirionI2CCommunication::sendFrame(SEN44_I2C_ADDRESS, txFrame,
+                                                 *_i2cBus);
+    if (error) {
+        return error;
+    }
+
+    delay(20);
+
+    SensirionI2CRxFrame rxFrame(buffer, 3);
+    error = SensirionI2CCommunication::receiveFrame(SEN44_I2C_ADDRESS, 3,
+                                                    rxFrame, *_i2cBus);
+    if (error) {
+        return error;
+    }
+
+    error |= rxFrame.getInt16(TemperatureOffsetTicks);
+    temperature_offset = static_cast<float>(TemperatureOffsetTicks) / 200.0f;
+    return error;
+}
+
+uint16_t SensirionI2CSen44::writeTemperatureOffsetinPersistentMemory() {
+    uint16_t error;
+    uint8_t buffer[2];
+    SensirionI2CTxFrame txFrame(buffer, 2);
+
+    error = txFrame.addCommand(0x6002);
+    if (error) {
+        return error;
+    }
+
+    error = SensirionI2CCommunication::sendFrame(SEN44_I2C_ADDRESS, txFrame,
+                                                 *_i2cBus);
+    delay(100);
+    return error;
+}
