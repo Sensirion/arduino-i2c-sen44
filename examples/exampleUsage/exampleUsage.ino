@@ -90,6 +90,25 @@ void printSerialNumber() {
     }
 }
 
+void printTemperatureOffset() {
+    uint16_t error;
+    char errorMessage[256];
+
+    float tOffset;
+
+    error = sen44.getTemperatureOffset(tOffset);
+
+    if (error) {
+        Serial.print("Error trying to execute getTemperatureOffset(): ");
+        errorToString(error, errorMessage, 256);
+        Serial.println(errorMessage);
+    } else {
+        Serial.print("Temperature Offset configured at ");
+        Serial.print(tOffset);
+        Serial.println("°C");
+    }
+}
+
 void setup() {
 
     Serial.begin(115200);
@@ -114,6 +133,7 @@ void setup() {
     // Print SEN44 module information
     printSerialNumber();
     printModuleVersions();
+    printTemperatureOffset();
 
     // Start Measurement
     error = sen44.startMeasurement();

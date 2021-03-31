@@ -336,6 +336,36 @@ class SensirionI2CSen44 {
      */
     uint16_t deviceReset(void);
 
+    /**
+     * setTemperatureOffset() - Sets the temperature offset for this device.
+     *
+     * @param temperature_offset temperature offset [°C]. Set to zero to disable
+     * temp offset.
+     *
+     * @return 0 on success, an error code otherwise
+     */
+    uint16_t setTemperatureOffset(float temperature_offset);
+
+    /**
+     * getTemperatureOffset() - Get the temperature offset for this device.
+     *
+     * @param temperature_offset Temperature offset [°C]. Zero means temperature
+     * offset is disabled.
+     *
+     * @return 0 on success, an error code otherwise
+     */
+    uint16_t getTemperatureOffset(float& temperature_offset);
+
+    /**
+     * writeTemperatureOffsetToPersistentMemory() - Write Temperature Offset to
+     * persistent Memory.
+     *
+     * @note This command is only available in idle mode.
+     *
+     * @return 0 on success, an error code otherwise
+     */
+    uint16_t writeTemperatureOffsetToPersistentMemory(void);
+
   private:
     TwoWire* _i2cBus = nullptr;
 };
