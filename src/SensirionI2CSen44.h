@@ -50,7 +50,7 @@ class SensirionI2CSen44 {
     /**
      * begin() - Initializes the SensirionI2CSen44 class.
      *
-     * @param serial Arduino stream object to be communicated with.
+     * @param i2cBus Arduino stream object to use for communication.
      *
      */
     void begin(TwoWire& i2cBus);
